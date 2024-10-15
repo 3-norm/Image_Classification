@@ -17,7 +17,9 @@
 - [참고 문헌](#참고-문헌)
 
 ## 프로젝트 개요
-이 프로젝트는 CIFAR-100 데이터셋의 이미지를 분류하는 딥러닝 CNN 모델 ShakePyramidNet을 구현한 것입니다. 모델은 CutMix, MixUp, ShakeDrop 등의 기술을 활용하여 일반화 및 성능을 향상시킵니다. 복잡한 데이터 증강 및 학습 과정을 통해 CIFAR-100 테스트셋에서 높은 정확도를 달성합니다.
+이 프로젝트는 CIFAR-100 데이터셋의 이미지를 분류하는 딥러닝 CNN 모델 ShakePyramidNet을 구현한 것입니다. 
+
+모델은 CutMix, MixUp, ShakeDrop 등의 기술을 활용하여 일반화 및 성능을 향상시킵니다. 복잡한 데이터 증강 및 학습 과정을 통해 CIFAR-100 테스트셋에서 높은 정확도를 달성합니다.
 
 
 
@@ -64,36 +66,22 @@ ShakePyramidNet은 ResNet 계열의 모델로, ShakeDrop과 Residual Connection�
 
 ## 사용법
 설치
-먼저, 저장소를 클론한 후 프로젝트 디렉토리로 이동하세요:
+먼저, 저장소를 클론하세요.
+```python
+[git clone https://github.com/3-norm/Image_Classification.git
+```
 
-bash
-코드 복사
-git clone https://github.com/yourusername/yourprojectname.git
-cd yourprojectname
-필요한 패키지를 설치합니다. requirements.txt 파일을 이용해 아래 명령어로 설치할 수 있습니다:
+필요한 패키지를 설치합니다. requirements.txt 파일을 이용해 아래 명령어로 설치할 수 있습니다.
 
-bash
-코드 복사
+```python
 pip install -r requirements.txt
-사용법
-서버 접속 및 JupyterLab 실행:
+```
 
+
+서버 접속 및 JupyterLab 실행
 개인적으로 부여받은 서버 주소로 접속합니다.
-
-서버에 접속한 후, JupyterLab을 실행하여 프로젝트 폴더에 있는 .ipynb 파일을 엽니다.
-
-bash
-코드 복사
-jupyter lab
-노트북 파일 실행:
-
-JupyterLab에서 노트북 파일을 열고, 학습, 평가, 추론 등 필요한 작업을 각 셀에서 순차적으로 실행하세요.
-모델 학습 및 평가:
-
-학습 셀에서 모델 학습을 진행하고, 평가 셀에서 성능을 확인할 수 있습니다.
-추론:
-
-예측을 실행하는 셀을 통해 새로운 데이터에 대한 예측을 수행할 수 있습니다.
+서버에 접속한 후, clone받은 .ipynb 파일을 엽니다.
+작업을 각 셀에서 순차적으로 실행하세요.
 
 
 ## 결과
