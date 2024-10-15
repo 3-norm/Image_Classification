@@ -68,7 +68,7 @@ ShakePyramidNet은 ResNet 계열의 모델로, ShakeDrop과 Residual Connection�
 설치
 먼저, 저장소를 클론하세요.
 ```python
-[git clone https://github.com/3-norm/Image_Classification.git
+git clone https://github.com/3-norm/Image_Classification.git
 ```
 
 필요한 패키지를 설치합니다. requirements.txt 파일을 이용해 아래 명령어로 설치할 수 있습니다.
