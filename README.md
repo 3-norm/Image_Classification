@@ -6,6 +6,7 @@
 - [프로젝트 개요](#프로젝트-개요)
 - [주의사항](#주의사항)
 - [데이터셋](#데이터셋)
+- [재현성](#재현성)
 - [pyramidnet\wide-resnet 공통 사용법](#pyramidnet\wide-resnet-공통-사용법)
 - [pyramidnet모델 아키텍처](#pyramidnet모델-아키텍처)
 - [pyramidnet학습 설정](#pyramidnet학습-설정)
@@ -79,6 +80,36 @@ def rand_bbox(size, lam):
     bby2 = np.clip(cy + cut_h // 2, 0, H)
     return bbx1, bby1, bbx2, bby2
 ```
+
+## 재현성
+본 프로젝트에서는 코드 실행 시 재현성을 보장하기 위해 특정 난수 시드를 설정하였습니다. 
+
+이는 모델 학습 및 결과를 일관되게 재현할 수 있도록 돕습니다. 
+
+```python
+def set_random_seed(seed):
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed(seed)
+        torch.cuda.manual_seed_all(seed)
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
+
+set_random_seed(327)
+```
+위 함수는 다음과 같은 설정을 포함합니다
+
+* random.seed(seed): Python의 기본 난수 발생기 시드 설정
+* np.random.seed(seed): Numpy 난수 발생기 시드 설정
+* torch.manual_seed(seed): PyTorch 난수 발생기 시드 설정
+* torch.cuda.manual_seed(seed) 및 torch.cuda.manual_seed_all(seed): GPU 사용 시 CUDA 난수 발생기 시드 설정
+* torch.backends.cudnn.deterministic = True
+* torch.backends.cudnn.benchmark = False: CUDNN 백엔드를 결정적(deterministic)으로 설정하여 재현성을 보장
+
+
+이와 같은 방법을 통해 학습 과정에서 난수로 인해 발생할 수 있는 불일치를 최소화하여 실험의 재현성을 유지할 수 있습니다.
 
 ## pyramidnet\wide-resnet 공통 사용법
 ### 저장소를 클론하세요.
