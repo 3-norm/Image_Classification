@@ -6,9 +6,13 @@
 - [프로젝트 개요](#프로젝트-개요)
 - [주의사항](#주의사항)
 - [데이터셋](#데이터셋)
-- [모델 아키텍처](#모델-아키텍처)
-- [학습 설정](#학습-설정)
-- [사용법](#사용법)
+- [pyramidnet\wide-resnet 공통 사용법](#pyramidnet\wide-resnet-공통-사용법)
+- [pyramidnet모델 아키텍처](#pyramidnet모델-아키텍처)
+- [pyramidnet학습 설정](#pyramidnet학습-설정)
+- [pyramidnet사용법](#pyramidnet사용법)
+- [wide-resnet모델 아키텍처](#wide-resnet모델-아키텍처)
+- [wide-resnet학습 설정](#wide-resnet학습-설정)
+- [wide-resnet사용법](#wide-resnet사용법)
 - [결과](#결과)
 - [참고 문헌](#참고-문헌)
 
@@ -76,8 +80,45 @@ def rand_bbox(size, lam):
     return bbx1, bby1, bbx2, bby2
 ```
 
+## pyramidnet\wide-resnet 공통 사용법
+### 저장소를 클론하세요.
+```python
+git clone https://github.com/3-norm/Image_Classification.git
+```
 
-## 모델 아키텍처
+### 필요한 패키지를 설치합니다. requirements.txt 파일을 이용해 아래 명령어로 설치할 수 있습니다.
+
+```python
+pip install -r requirements.txt
+```
+
+### CIFAR-100 데이터셋을 자동으로 다운로드하고 로드합니다.
+데이터셋은 학습과 테스트 셋으로 나누어져 있으며, 각각 데이터 증강을 위해 RandomHorizontalFlip과 RandomCrop을 포함한 변환을 적용합니다.
+```python
+# CIFAR-100 데이터셋 불러오기
+train_data = datasets.CIFAR100(root='./data', train=True, download=True, transform=transformtrain)
+test_data = datasets.CIFAR100(root='./data', train=False, download=True, transform=transformtest)
+
+train_loader = DataLoader(train_data, batch_size=128, shuffle=True)
+test_loader = DataLoader(test_data, batch_size=128, shuffle=False)
+```
+
+### 학습 및 평가
+```python
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model = ShakePyramidNet().to(device)
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.SGD(model.parameters(), lr=0.1, momentum=0.9, weight_decay=5e-4, nesterov=True)
+scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.2, patience=10, min_lr=1e-6)
+
+for epoch in range(300):
+    train_loss, train_acc = train(model, train_loader, optimizer, criterion, device, use_cutmix=True)
+    val_loss, val_top1_acc, val_top5_acc, val_super_class_acc = evaluate(model, test_loader, criterion, device)
+    print(f'Epoch {epoch+1}: Loss={val_loss:.4f}, Top-1 Accuracy={val_top1_acc:.2f}%, Top-5 Accuracy={val_top5_acc:.2f}%')
+```
+
+
+## pyramidnet모델 아키텍처
 ShakePyramidNet은 ResNet 계열의 모델로, ShakeDrop과 Residual Connection을 사용하여 성능을 향상시킵니다. 
 
 모델은 다음과 같은 레이어들로 구성됩니다.
@@ -88,17 +129,8 @@ ShakePyramidNet은 ResNet 계열의 모델로, ShakeDrop과 Residual Connection�
 
 
 
-## 학습 설정
+## pyramidnet학습 설정
 ### ShakePyramidNet
-- Batch Size: 128
-```python
-train_loader = DataLoader(train_data, batch_size=128, shuffle=True)
-test_loader = DataLoader(test_data, batch_size=128, shuffle=False)
-```
-- CutMix와 MixUp 데이터 증강 기법을 선택적으로 적용 해당 코드에서는 cutmix만 사용하였습니다.
-```python
-train(model, train_loader, optimizer, criterion, device, use_cutmix=True)
-```
 
 - 하이퍼파라미터
 ```python
@@ -132,34 +164,9 @@ scheduler = optim.lr_scheduler.ReduceLROnPlateau(
 
 
 
-## 사용법
-### 설치
-1. 저장소를 클론하세요.
-```python
-git clone https://github.com/3-norm/Image_Classification.git
-```
-
-필요한 패키지를 설치합니다. requirements.txt 파일을 이용해 아래 명령어로 설치할 수 있습니다.
-
-```python
-pip install -r requirements.txt
-```
-
-### 코드 실행과정
-2. 데이터셋 준비 및 전처리
-CIFAR-100 데이터셋을 자동으로 다운로드하고 로드합니다.
-데이터셋은 학습과 테스트 셋으로 나누어져 있으며, 각각 데이터 증강을 위해 RandomHorizontalFlip과 RandomCrop을 포함한 변환을 적용합니다.
-```python
-# CIFAR-100 데이터셋 불러오기
-train_data = datasets.CIFAR100(root='./data', train=True, download=True, transform=transformtrain)
-test_data = datasets.CIFAR100(root='./data', train=False, download=True, transform=transformtest)
-
-train_loader = DataLoader(train_data, batch_size=128, shuffle=True)
-test_loader = DataLoader(test_data, batch_size=128, shuffle=False)
-```
-
+## pyramidnet사용법
 ### 모델 구성
-3. 모델 실행
+모델 실행
 
 * <mark>ShakeDropFunction</mark>
 
@@ -176,27 +183,78 @@ test_loader = DataLoader(test_data, batch_size=128, shuffle=False)
 * <mark>ShakePyramidNet</mark>
   ShakeDrop 기법을 사용한 피라미드 네트워크입니다. 모델 깊이에 따라 채널 수를 점진적으로 증가시키며 Residual Connection을 활용합니다.
 
-### 학습 및 평가
-```python
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model = ShakePyramidNet().to(device)
-criterion = nn.CrossEntropyLoss()
-optimizer = optim.SGD(model.parameters(), lr=0.1, momentum=0.9, weight_decay=5e-4, nesterov=True)
-scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.2, patience=10, min_lr=1e-6)
 
-for epoch in range(300):
-    train_loss, train_acc = train(model, train_loader, optimizer, criterion, device, use_cutmix=True)
-    val_loss, val_top1_acc, val_top5_acc, val_super_class_acc = evaluate(model, test_loader, criterion, device)
-    print(f'Epoch {epoch+1}: Loss={val_loss:.4f}, Top-1 Accuracy={val_top1_acc:.2f}%, Top-5 Accuracy={val_top5_acc:.2f}%')
+## wide-resnet모델 아키텍처
+WideResNet 모델은 ResNet 계열 모델로, 일반적인 ResNet 구조와 비슷하지만, Widen Factor를 적용하여 각 레이어의 채널 수를 늘린 것이 특징입니다.
+
+모델은 다음과 같은 주요 레이어들로 구성됩니다
+
+- Conv2D: 입력 이미지에서 특징을 추출하는 합성곱 레이어
+- Batch Normalization: 학습을 안정화하고 속도를 향상시키는 배치 정규화 레이어
+- BasicBlock (Residual Block): 기본적인 ResNet 블록으로, 두 개의 Conv2D와 Batch Normalization 레이어로 구성되며, Residual Connection을 통해 입력을 출력에 더해 Gradient Flow를 원활하게 유지
+- Global Average Pooling: 마지막 feature map의 평균을 계산하여, fully connected 레이어에 전달할 벡터로 변환
+- Fully Connected Layer: 클래스 예측을 위한 최종 출력 레이어
+
+
+
+## wide-resnet학습 설정
+### wide-resnet
+
+- 하이퍼파라미터
+```python
+config = {
+    'epoch': 200,
+    'lr': 0.1,
+    'weight_decay': 5e-4,
+    'momentum': 0.9,
+    'milestones':[60,120,160],
+    'gamma':0.2
+}
+
+optimizer = optim.SGD(
+    model.parameters(),
+    lr=config['lr'],
+    weight_decay=config['weight_decay'],
+    momentum=config['momentum']
+)
+
+scheduler = optim.lr_scheduler.MultiStepLR(
+    optimizer,
+    milestones = config['milestones'],
+    gamma = config['gamma']
+)
 ```
 
+## wide-resnet사용법
+### 모델 구성
+모델 실행
+
+* <mark>BasicBlock</mark>
+
+ResNet의 기본 블록으로, 두 개의 Conv2D와 Batch Normalization 레이어로 구성되어 있습니다. Residual Connection을 통해 입력을 출력에 더하여 Gradient Flow를 원활하게 유지하고, 안정적인 학습을 도와줍니다.
+
+* <mark>Widen Factor</mark>
+
+WideResNet의 모든 블록에서 채널 수를 늘려 모델의 특징 학습 능력을 향상시킵니다. 기본 ResNet과 비교하여 각 레이어가 더 넓은 채널을 갖도록 설계되었으며, CIFAR-100과 같은 데이터셋에서 우수한 성능을 보일 수 있습니다.
+
+* <mark>Conv2D</mark>
+
+모델의 첫 번째 레이어로서, 이미지에서 초기 특징을 추출합니다. 입력 이미지의 특징을 추출해 나가기 위한 기본 구성 요소입니다.
+
+* <mark>Global Average Pooling</mark>
+
+최종 feature map에서 평균을 계산하여 fully connected 레이어에 전달할 벡터로 변환합니다. 이를 통해 연산량을 줄이고 네트워크의 일반화 성능을 높일 수 있습니다.
+
+* <mark>Fully Connected Layer</mark>
+
+CIFAR-100과 같은 다중 클래스 분류 문제를 해결하기 위해 최종적으로 100개 클래스에 대한 확률을 예측합니다.
 
 ## 결과
 ||pyramidnet|wide-resnet|Ensemble|
 |------|---|---|---|
-|Top1_acc|%|%|%|
-|Top5_acc|%|%|%|
-|Superclass_acc|%|%|%|
+|Top1_acc|%|82.74%|%|
+|Top5_acc|%|96.09%|%|
+|Superclass_acc|%|90.19%|%|
 
 ## 참고 문헌
 ShakeDrop / PyramidNet : https://github.com/dyhan0920/PyramidNet-PyTorch/tree/master, https://github.com/zxcvfd13502/DDAS_code
