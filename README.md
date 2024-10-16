@@ -8,10 +8,8 @@
 - [데이터셋](#데이터셋)
 - [재현성](#재현성)
 - [pyramidnet\wide-resnet 공통 사용법](#pyramidnet\wide-resnet-공통-사용법)
-- [pyramidnet모델 아키텍처](#pyramidnet모델-아키텍처)
 - [pyramidnet학습 설정](#pyramidnet학습-설정)
 - [pyramidnet사용법](#pyramidnet사용법)
-- [wide-resnet모델 아키텍처](#wide-resnet모델-아키텍처)
 - [wide-resnet학습 설정](#wide-resnet학습-설정)
 - [wide-resnet사용법](#wide-resnet사용법)
 - [결과](#결과)
@@ -149,18 +147,6 @@ for epoch in range(300):
     print(f'Epoch {epoch+1}: Loss={val_loss:.4f}, Top-1 Accuracy={val_top1_acc:.2f}%, Top-5 Accuracy={val_top5_acc:.2f}%')
 ```
 
-
-## pyramidnet모델 아키텍처
-ShakePyramidNet은 ResNet 계열의 모델로, ShakeDrop과 Residual Connection을 사용하여 성능을 향상시킵니다. 
-
-모델은 다음과 같은 레이어들로 구성됩니다.
-- Conv2D: 입력 이미지에서 특징을 추출하는 합성곱 레이어
-- Batch Normalization: 학습을 안정화하고 속도를 향상시키는 배치 정규화 레이어
-- ShakeDrop: 학습 중에 랜덤으로 특정 활성화를 드롭하는 기술로, 정규화 효과를 극대화
-- Fully Connected Layer: 클래스 예측을 위한 최종 출력 레이어
-
-
-
 ## pyramidnet학습 설정
 ### ShakePyramidNet
 
@@ -197,35 +183,11 @@ scheduler = optim.lr_scheduler.ReduceLROnPlateau(
 
 
 ## pyramidnet사용법
-### 모델 구성
-모델 실행
-
-* <mark>ShakeDropFunction</mark>
-
-  학습 중 일부 활성화를 무작위로 드롭하여 정규화 효과를 극대화합니다.
-
-* <mark>ShakeDrop</mark>
-
-  ShakeDropFunction을 포함하는 클래스이며, 특정 확률로 드롭아웃을 적용합니다.
-
-* <mark>ShakeBasicBlock</mark>
-
-  ResNet 블록에 ShakeDrop 기법을 적용한 ShakePyramidNet의 기본 블록입니다.
-
-* <mark>ShakePyramidNet</mark>
-  ShakeDrop 기법을 사용한 피라미드 네트워크입니다. 모델 깊이에 따라 채널 수를 점진적으로 증가시키며 Residual Connection을 활용합니다.
 
 
-## wide-resnet모델 아키텍처
-WideResNet 모델은 ResNet 계열 모델로, 일반적인 ResNet 구조와 비슷하지만, Widen Factor를 적용하여 각 레이어의 채널 수를 늘린 것이 특징입니다.
 
-모델은 다음과 같은 주요 레이어들로 구성됩니다
 
-- Conv2D: 입력 이미지에서 특징을 추출하는 합성곱 레이어
-- Batch Normalization: 학습을 안정화하고 속도를 향상시키는 배치 정규화 레이어
-- BasicBlock (Residual Block): 기본적인 ResNet 블록으로, 두 개의 Conv2D와 Batch Normalization 레이어로 구성되며, Residual Connection을 통해 입력을 출력에 더해 Gradient Flow를 원활하게 유지
-- Global Average Pooling: 마지막 feature map의 평균을 계산하여, fully connected 레이어에 전달할 벡터로 변환
-- Fully Connected Layer: 클래스 예측을 위한 최종 출력 레이어
+
 
 
 
@@ -258,28 +220,14 @@ scheduler = optim.lr_scheduler.MultiStepLR(
 ```
 
 ## wide-resnet사용법
-### 모델 구성
-모델 실행
 
-* <mark>BasicBlock</mark>
 
-ResNet의 기본 블록으로, 두 개의 Conv2D와 Batch Normalization 레이어로 구성되어 있습니다. Residual Connection을 통해 입력을 출력에 더하여 Gradient Flow를 원활하게 유지하고, 안정적인 학습을 도와줍니다.
 
-* <mark>Widen Factor</mark>
 
-WideResNet의 모든 블록에서 채널 수를 늘려 모델의 특징 학습 능력을 향상시킵니다. 기본 ResNet과 비교하여 각 레이어가 더 넓은 채널을 갖도록 설계되었으며, CIFAR-100과 같은 데이터셋에서 우수한 성능을 보일 수 있습니다.
 
-* <mark>Conv2D</mark>
 
-모델의 첫 번째 레이어로서, 이미지에서 초기 특징을 추출합니다. 입력 이미지의 특징을 추출해 나가기 위한 기본 구성 요소입니다.
 
-* <mark>Global Average Pooling</mark>
 
-최종 feature map에서 평균을 계산하여 fully connected 레이어에 전달할 벡터로 변환합니다. 이를 통해 연산량을 줄이고 네트워크의 일반화 성능을 높일 수 있습니다.
-
-* <mark>Fully Connected Layer</mark>
-
-CIFAR-100과 같은 다중 클래스 분류 문제를 해결하기 위해 최종적으로 100개 클래스에 대한 확률을 예측합니다.
 
 ## 결과
 ||pyramidnet|wide-resnet|Ensemble|
