@@ -17,9 +17,9 @@
 - [참고 문헌](#참고-문헌)
 
 ## 프로젝트 개요
-이 프로젝트는 CIFAR-100 데이터셋의 이미지를 분류하는 딥러닝 CNN 모델 ShakePyramidNet을 구현한 것입니다. 
+이 프로젝트는 CIFAR-100 데이터셋의 이미지를 분류하는 딥러닝 CNN 모델 ShakePyramidNet과 wide-resnet을 통한 앙상블 학습을 구현한 것입니다. 
 
-모델은 CutMix, MixUp, ShakeDrop 등의 기술을 활용하여 일반화 및 성능을 향상시킵니다. 복잡한 데이터 증강 및 학습 과정을 통해 CIFAR-100 테스트셋에서 높은 정확도를 달성합니다.
+ShakePyramidNet과 모델은 CutMix, MixUp, ShakeDrop 등의 기술을 활용하여 일반화 및 성능을 향상시킵니다.
 
 
 
