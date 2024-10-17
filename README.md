@@ -122,9 +122,11 @@ pip install -r requirements.txt
 
     **Setting the Model File Paths**
 
-    When loading the models, you need to set the model file paths according to your local environment. 
+    When loading the models, you need to set the file paths according to your local environment.
 
-    Modify the following part with `your_path` to the path of the saved model files.
+    Additionally, after training is complete, you should update the .pth filenames to match the actual names of the generated files.
+
+    In the following code, replace `your_path` with the location where the model files are saved, and update the .pth filenames to the actual generated filenames:
 
     ```python
     model1_path = "your_path/wide-resnet_best_model.pth"
@@ -137,6 +139,7 @@ pip install -r requirements.txt
 
 <br><br>
 ## Results
+Our Best Score
 ||pyramidnet|wide-resnet|Ensemble|
 |------|---|---|---|
 |Top1_acc|84.69%|82.74%|85.76%|
@@ -146,4 +149,4 @@ pip install -r requirements.txt
 <br><br>
 ## References
 ShakeDrop / PyramidNet : https://github.com/dyhan0920/PyramidNet-PyTorch/tree/master, https://github.com/zxcvfd13502/DDAS_code
-CIFAR-100 Dataset: [CIFAR-100 Dataset](https://www.cs.toronto.edu/~kriz/cifar.html)
+CIFAR-100 dataset: [CIFAR-100 Dataset](https://www.cs.toronto.edu/~kriz/cifar.html)
