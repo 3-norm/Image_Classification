@@ -232,9 +232,9 @@ scheduler = optim.lr_scheduler.MultiStepLR(
 ## 결과
 ||pyramidnet|wide-resnet|Ensemble|
 |------|---|---|---|
-|Top1_acc|%|82.74%|%|
-|Top5_acc|%|96.09%|%|
-|Superclass_acc|%|90.19%|%|
+|Top1_acc|84.69%|82.74%|85.76%|
+|Top5_acc|97.19%|96.09%|97.40%|
+|Superclass_acc|91.69%|90.19%|92.38%|
 
 ## 참고 문헌
 ShakeDrop / PyramidNet : https://github.com/dyhan0920/PyramidNet-PyTorch/tree/master, https://github.com/zxcvfd13502/DDAS_code
