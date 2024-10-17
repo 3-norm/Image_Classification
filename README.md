@@ -102,9 +102,9 @@ set_random_seed(327)
 * random.seed(seed): Python의 기본 난수 발생기 시드 설정
 * np.random.seed(seed): Numpy 난수 발생기 시드 설정
 * torch.manual_seed(seed): PyTorch 난수 발생기 시드 설정
-* torch.cuda.manual_seed(seed) ------|
+* torch.cuda.manual_seed(seed) -------------&darr;
 * torch.cuda.manual_seed_all(seed) ----> GPU 사용 시 CUDA 난수 발생기 시드 설정
-* torch.backends.cudnn.deterministic = True ---|
+* torch.backends.cudnn.deterministic = True -------------&darr;
 * torch.backends.cudnn.benchmark = False --------> CUDNN 백엔드를 결정적(deterministic)으로 설정하여 재현성을 보장
 
 
