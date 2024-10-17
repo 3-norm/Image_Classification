@@ -1,8 +1,11 @@
-[English](README.md) | [한국어](README_ko.md)
+<div align="center">
+  <a href="README.md">English</a> | <a href="README_ko.md">한국어</a>
+</div>
+<br><br>
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/3aa896d4-3f2c-44d3-895b-1936a1ad0c22" alt="image"width="50%">
+</div>
 
-
-# Image Classification
-2024 2nd Semester Visual Intelligence Learning Project
 
 
 ## Table of Contents
