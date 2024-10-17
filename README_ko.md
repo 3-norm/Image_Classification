@@ -125,10 +125,12 @@ pip install -r requirements.txt
 
     **모델 파일 경로 설정**
 
-    모델을 불러올 때, 각자의 로컬 환경에 맞는 모델 파일 경로를 설정해야 합니다. 
-
-    다음과 같은 경로 설정 부분에서 `your_path`를 사용자가 저장한 모델 파일의 경로로 수정해주세요.
-
+    모델을 불러올 때, 각자의 로컬 환경에 맞는 모델 파일 경로를 설정해야 합니다.
+   
+    또한, 학습이 완료된 후 생성된 .pth 파일 이름으로 해당 경로의 파일명을 수정해야 합니다.
+   
+    다음과 같은 경로 설정 부분에서 `your_path`를 모델 파일이 저장된 위치로 바꾸고, .pth 파일 이름도 실제 생성된 파일 이름으로 수정하세요
+   
     ```python
     model1_path = "your_path/wide-resnet_best_model.pth"
     model2_path = "your_path/pyramidnet_best_model.pth"
