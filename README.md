@@ -3,7 +3,7 @@
 </div>
 <br><br>
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/3aa896d4-3f2c-44d3-895b-1936a1ad0c22" alt="image"width="50%">
+  <img src="https://github.com/user-attachments/assets/3aa896d4-3f2c-44d3-895b-1936a1ad0c22" alt="image"width="60%">
 </div>
 
 
@@ -93,11 +93,13 @@ git clone https://github.com/3-norm/Image_Classification.git
 ```
 #### File Structure
 ``` 
-├── wide-resnet.ipynb      # Wide ResNet model implementation and training code
-├── pyramidnet.ipynb       # PyramidNet model implementation and training code
+├── .gitignore             # Specifies files and directories to ignore in version control
 ├── ensemble.ipynb         # Model combination and testing using Ensemble technique
+├── pyramidnet.ipynb       # PyramidNet model implementation and training code
+├── README.md              # Project description and guide
+├── README_ko.md           # Korean version of the project description and guide
 ├── requirements.txt       # List of Python packages required for project execution
-└── README.md              # Project description and guide
+└── wide-resnet.ipynb      # Wide ResNet model implementation and training code
 ```
 ### Install the required packages. You can use the following command to install using the requirements.txt file.
 
@@ -139,14 +141,38 @@ pip install -r requirements.txt
 
 <br><br>
 ## Results
-Our Best Score
-||pyramidnet|wide-resnet|Ensemble|
-|------|---|---|---|
-|Top1_acc|84.69%|82.74%|85.76%|
-|Top5_acc|97.19%|96.09%|97.40%|
-|Superclass_acc|91.69%|90.19%|92.38%|
+
+### Model Parameters
+#### PyramidNet
+> - **Epochs**: 200
+> - **Learning Rate (LR)**: 0.1
+> - **Weight Decay**: 5e-4
+> - **Momentum**: 0.9
+> - **Nesterov**: True
+> - **Scheduler**: ReduceLROnPlateau (Patience: 10, Factor: 0.2, Min LR: 1e-6)
+>
+>
+#### WideResNet
+> - **Epochs**: 200
+> - **Learning Rate (LR)**: 0.1
+> - **Weight Decay**: 5e-4
+> - **Momentum**: 0.9
+> - **Scheduler**: MultiStepLR (Milestones: [60, 120, 160], Gamma: 0.2)
+
+### Ensemble Method
+The ensemble model combines WideResNet and ShakePyramidNet using Soft Voting:
+- **WideResNet weight**: 0.4
+- **ShakePyramidNet weight**: 0.6
+
+
+### Our Best Score
+|               | Top1 Accuracy | Top5 Accuracy | Superclass Accuracy |
+|---------------|---------------|----------------|---------------------|
+| PyramidNet    | 84.69%        | 97.19%         | 91.69%              |
+| WideResNet    | 82.74%        | 96.09%         | 90.19%              |
+| **Ensemble**  | **85.76%**    | **97.40%**     | **92.38%**          |
 
 <br><br>
 ## References
-ShakeDrop / PyramidNet : https://github.com/dyhan0920/PyramidNet-PyTorch/tree/master, https://github.com/zxcvfd13502/DDAS_code
+ShakeDrop / PyramidNet : https://github.com/dyhan0920/PyramidNet-PyTorch/tree/master, https://github.com/zxcvfd13502/DDAS_code  
 CIFAR-100 dataset: [CIFAR-100 Dataset](https://www.cs.toronto.edu/~kriz/cifar.html)

@@ -96,11 +96,13 @@ git clone https://github.com/3-norm/Image_Classification.git
 ```
 #### 파일 구조
 ```
-├── wide-resnet.ipynb      # Wide ResNet 모델 구현 및 학습 코드
+├── .gitignore             # Git에서 제외할 파일과 디렉토리 설정
+├── ensemble.ipynb         # 앙상블 기법을 사용한 모델 결합 및 테스트
 ├── pyramidnet.ipynb       # PyramidNet 모델 구현 및 학습 코드
-├── ensemble.ipynb         # Ensemble 기법을 이용한 모델 결합 및 테스트
-├── requirements.txt       # 프로젝트 실행에 필요한 Python 패키지 목록
-└── README.md              # 프로젝트 설명 및 가이드
+├── README.md              # 프로젝트 설명 및 가이드
+├── README_ko.md           # 한글 버전의 프로젝트 설명 및 가이드
+├── requirements.txt       # 프로젝트 실행에 필요한 파이썬 패키지 목록
+└── wide-resnet.ipynb      # Wide ResNet 모델 구현 및 학습 코드
 ```
 ### 필요한 패키지를 설치합니다. requirements.txt 파일을 이용해 아래 명령어로 설치할 수 있습니다.
 
@@ -142,11 +144,36 @@ pip install -r requirements.txt
 
 <br><br>
 ## 결과
-||pyramidnet|wide-resnet|Ensemble|
-|------|---|---|---|
-|Top1_acc|84.69%|82.74%|85.76%|
-|Top5_acc|97.19%|96.09%|97.40%|
-|Superclass_acc|91.69%|90.19%|92.38%|
+
+### 모델 파라미터
+#### PyramidNet
+> - **Epochs**: 200
+> - **Learning Rate (LR)**: 0.1
+> - **Weight Decay**: 5e-4
+> - **Momentum**: 0.9
+> - **Nesterov**: True
+> - **Scheduler**: ReduceLROnPlateau (Patience: 10, Factor: 0.2, Min LR: 1e-6)
+>
+>
+#### WideResNet
+> - **Epochs**: 200
+> - **Learning Rate (LR)**: 0.1
+> - **Weight Decay**: 5e-4
+> - **Momentum**: 0.9
+> - **Scheduler**: MultiStepLR (Milestones: [60, 120, 160], Gamma: 0.2)
+
+### 앙상블 기법
+앙상블 모델은 WideResNet과 ShakePyramidNet을 소프트 보팅(Soft Voting) 방식으로 결합합니다:
+- **WideResNet weight**: 0.4
+- **ShakePyramidNet weight**: 0.6
+
+
+### Our Best Score
+|               | Top1 Accuracy | Top5 Accuracy | Superclass Accuracy |
+|---------------|---------------|----------------|---------------------|
+| PyramidNet    | 84.69%        | 97.19%         | 91.69%              |
+| WideResNet    | 82.74%        | 96.09%         | 90.19%              |
+| **Ensemble**  | **85.76%**    | **97.40%**     | **92.38%**          |
 
 <br><br>
 ## 참고 문헌
