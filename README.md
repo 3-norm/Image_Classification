@@ -188,6 +188,7 @@ The ensemble model combines WideResNet and ShakePyramidNet using Soft Voting:
 | PyramidNet    | 84.44%        | 97.30%         | 92.46%              |
 | WideResNet    | 82.58%        | 95.89%         | 90.14%              |
 | **Ensemble**  | <mark>**85.71%**</mark>    | <mark>**97.45%**</mark>     | <mark>**92.46%**</mark>          |
+
 <br><br>
 ## References
 ShakeDrop / PyramidNet : https://github.com/dyhan0920/PyramidNet-PyTorch/tree/master, https://github.com/zxcvfd13502/DDAS_code  
