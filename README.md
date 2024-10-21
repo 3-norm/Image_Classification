@@ -165,13 +165,29 @@ The ensemble model combines WideResNet and ShakePyramidNet using Soft Voting:
 - **ShakePyramidNet weight**: 0.6
 
 
-### Our Best Score
+### Performance Comparison by Seed
+
+#### Random Seed: 327
 |               | Top1 Accuracy | Top5 Accuracy | Superclass Accuracy |
 |---------------|---------------|----------------|---------------------|
 | PyramidNet    | 84.69%        | 97.19%         | 91.69%              |
 | WideResNet    | 82.74%        | 96.09%         | 90.19%              |
 | **Ensemble**  | **85.76%**    | **97.40%**     | **92.38%**          |
 
+
+#### Random Seed: 817
+|               | Top1 Accuracy | Top5 Accuracy | Superclass Accuracy |
+|---------------|---------------|----------------|---------------------|
+| PyramidNet    | 84.31%        | 97.37%         | 91.62%              |
+| WideResNet    | 82.78%        | 96.18%         | 90.04%              |
+| **Ensemble**  | **85.47%**    | **97.55%**     | **92.18%**          |
+
+#### Our Best Score: Random Seed 112
+|               | Top1 Accuracy | Top5 Accuracy | Superclass Accuracy |
+|---------------|---------------|----------------|---------------------|
+| PyramidNet    | 84.44%        | 97.30%         | 92.46%              |
+| WideResNet    | 82.58%        | 95.89%         | 90.14%              |
+| **Ensemble**  | <mark>**85.71%**</mark>    | <mark>**97.45%**</mark>     | <mark>**92.46%**</mark>          |
 <br><br>
 ## References
 ShakeDrop / PyramidNet : https://github.com/dyhan0920/PyramidNet-PyTorch/tree/master, https://github.com/zxcvfd13502/DDAS_code  
